@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>makerworks-postgres</Name>
+  <Repository>postgres:15</Repository>
+  <Registry>https://hub.docker.com/_/postgres</Registry>
+  <Network>makerworks-net</Network>
+  <MyIP/>
+  <Shell>bash</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://github.com/schartrand77/makerworks-unraid-templates/issues</Support>
+  <Project>https://github.com/schartrand77/makerworks-unraid-templates</Project>
+  <Overview><![CDATA[PostgreSQL 15 database for the MakerWorks suite. Install this before MakerWorks and StockWorks when you want a shared suite database on Unraid.]]></Overview>
+  <Category>Productivity: Tools:</Category>
+  <WebUI/>
+  <TemplateURL>https://raw.githubusercontent.com/schartrand77/makerworks-unraid-templates/main/makerworks-postgres.xml</TemplateURL>
+  <Icon>https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original.svg</Icon>
+  <ExtraParams>--restart unless-stopped</ExtraParams>
+  <PostArgs/>
+  <CPUset/>
+  <DateInstalled/>
+  <Requires>Create Docker network makerworks-net before installing this template.</Requires>
+
+  <Config Name="PostgreSQL Port" Target="5432" Default="5432" Mode="tcp" Description="Optional host port for PostgreSQL. Keep closed to the internet." Type="Port" Display="advanced" Required="false" Mask="false">5432</Config>
+  <Config Name="Database Storage" Target="/var/lib/postgresql/data" Default="/mnt/user/appdata/makerworks/postgres" Mode="rw" Description="Persistent PostgreSQL data directory." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/makerworks/postgres</Config>
+  <Config Name="PostgreSQL User" Target="POSTGRES_USER" Default="postgres" Mode="" Description="Database superuser name." Type="Variable" Display="always" Required="true" Mask="false">postgres</Config>
+  <Config Name="PostgreSQL Password" Target="POSTGRES_PASSWORD" Default="" Mode="" Description="Database password. Generate a strong secret before first start." Type="Variable" Display="always" Required="true" Mask="true"></Config>
+  <Config Name="PostgreSQL Database" Target="POSTGRES_DB" Default="makerworks" Mode="" Description="Default database name created on first start." Type="Variable" Display="always" Required="true" Mask="false">makerworks</Config>
+  <Config Name="Timezone" Target="TZ" Default="Etc/UTC" Mode="" Description="Container timezone." Type="Variable" Display="advanced" Required="false" Mask="false">Etc/UTC</Config>
+</Container>

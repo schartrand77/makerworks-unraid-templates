@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>StockWorks</Name>
+  <Repository>ghcr.io/schartrand77/stockworks:latest</Repository>
+  <Registry>https://github.com/schartrand77/stockworks/pkgs/container/stockworks</Registry>
+  <Network>makerworks-net</Network>
+  <MyIP/>
+  <Shell>bash</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://github.com/schartrand77/stockworks/issues</Support>
+  <Project>https://github.com/schartrand77/stockworks</Project>
+  <Overview><![CDATA[StockWorks tracks 3D printing materials, hardware, merch, inventory movements, quotes, incoming MakerWorks jobs, and PrintLab loaded-tray visibility.]]></Overview>
+  <Category>Productivity: Tools:</Category>
+  <WebUI>http://[IP]:[PORT:8000]/</WebUI>
+  <TemplateURL>https://raw.githubusercontent.com/schartrand77/makerworks-unraid-templates/main/stockworks.xml</TemplateURL>
+  <Icon>https://raw.githubusercontent.com/schartrand77/stockworks/main/public/favicon-192.png</Icon>
+  <ExtraParams>--restart unless-stopped</ExtraParams>
+  <PostArgs/>
+  <CPUset/>
+  <DateInstalled/>
+  <Requires>Strong admin password, strong session secret, mapped /data path, and Docker network makerworks-net.</Requires>
+
+  <Config Name="Web UI Port" Target="8000" Default="8256" Mode="tcp" Description="Host port for the StockWorks web UI." Type="Port" Display="always" Required="true" Mask="false">8256</Config>
+  <Config Name="Appdata Storage" Target="/data" Default="/mnt/user/appdata/stockworks" Mode="rw" Description="Persistent SQLite database and attachments." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/stockworks</Config>
+  <Config Name="PUID" Target="PUID" Default="99" Mode="" Description="User ID that owns files written by StockWorks." Type="Variable" Display="advanced" Required="true" Mask="false">99</Config>
+  <Config Name="PGID" Target="PGID" Default="100" Mode="" Description="Group ID that owns files written by StockWorks." Type="Variable" Display="advanced" Required="true" Mask="false">100</Config>
+  <Config Name="UMASK" Target="UMASK" Default="002" Mode="" Description="File creation mask." Type="Variable" Display="advanced" Required="false" Mask="false">002</Config>
+  <Config Name="Timezone" Target="TZ" Default="Etc/UTC" Mode="" Description="Container timezone." Type="Variable" Display="always" Required="true" Mask="false">Etc/UTC</Config>
+  <Config Name="Database URL" Target="DATABASE_URL" Default="" Mode="" Description="Optional PostgreSQL DSN. Leave blank for SQLite." Type="Variable" Display="advanced" Required="false" Mask="true"></Config>
+  <Config Name="StockWorks DB Schema" Target="STOCKWORKS_DB_SCHEMA" Default="" Mode="" Description="Optional PostgreSQL schema for StockWorks-owned tables." Type="Variable" Display="advanced" Required="false" Mask="false"></Config>
+  <Config Name="Data Directory" Target="STOCKWORKS_DATA_DIR" Default="/data" Mode="" Description="Internal StockWorks data directory." Type="Variable" Display="advanced" Required="true" Mask="false">/data</Config>
+  <Config Name="Database Filename" Target="STOCKWORKS_DB_FILENAME" Default="app.db" Mode="" Description="SQLite filename under STOCKWORKS_DATA_DIR." Type="Variable" Display="advanced" Required="true" Mask="false">app.db</Config>
+  <Config Name="Admin Username" Target="ADMIN_USERNAME" Default="admin" Mode="" Description="Admin login username." Type="Variable" Display="always" Required="true" Mask="false">admin</Config>
+  <Config Name="Admin Email" Target="ADMIN_EMAIL" Default="" Mode="" Description="Optional admin email." Type="Variable" Display="advanced" Required="false" Mask="false"></Config>
+  <Config Name="Admin Password" Target="ADMIN_PASSWORD" Default="" Mode="" Description="Admin login password. Use a strong password." Type="Variable" Display="always" Required="true" Mask="true"></Config>
+  <Config Name="Secret Key" Target="SECRET_KEY" Default="" Mode="" Description="Long random secret used to sign session cookies." Type="Variable" Display="always" Required="true" Mask="true"></Config>
+  <Config Name="HTTPS-Only Session Cookie" Target="SESSION_HTTPS_ONLY" Default="0" Mode="" Description="Set 1 when StockWorks is accessed only via HTTPS." Type="Variable" Display="advanced" Required="false" Mask="false">0</Config>
+  <Config Name="PrintLab Base URL" Target="PRINTLAB_BASE_URL" Default="http://PrintLab:8080" Mode="" Description="Optional PrintLab URL used to read loaded AMS trays." Type="Variable" Display="advanced" Required="false" Mask="false">http://PrintLab:8080</Config>
+  <Config Name="PrintLab API Key" Target="PRINTLAB_API_KEY" Default="" Mode="" Description="Optional PrintLab API key." Type="Variable" Display="advanced" Required="false" Mask="true"></Config>
+  <Config Name="PrintLab Bearer Token" Target="PRINTLAB_BEARER_TOKEN" Default="" Mode="" Description="Optional PrintLab bearer token." Type="Variable" Display="advanced" Required="false" Mask="true"></Config>
+  <Config Name="PrintLab Username" Target="PRINTLAB_USERNAME" Default="" Mode="" Description="Optional PrintLab username for Basic auth." Type="Variable" Display="advanced" Required="false" Mask="false"></Config>
+  <Config Name="PrintLab Password" Target="PRINTLAB_PASSWORD" Default="" Mode="" Description="Optional PrintLab password for Basic auth." Type="Variable" Display="advanced" Required="false" Mask="true"></Config>
+  <Config Name="PrintLab API Auth Header" Target="PRINTLAB_API_AUTH_HEADER" Default="X-API-Key" Mode="" Description="Header name PrintLab expects for PRINTLAB_API_KEY." Type="Variable" Display="advanced" Required="false" Mask="false">X-API-Key</Config>
+  <Config Name="PrintLab Trace Logging" Target="PRINTLAB_TRACE" Default="0" Mode="" Description="Set 1 to enable PrintLab integration trace logs." Type="Variable" Display="advanced" Required="false" Mask="false">0</Config>
+</Container>

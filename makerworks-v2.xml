@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>MakerWorks-v2</Name>
+  <Repository>ghcr.io/schartrand77/mkw2:latest</Repository>
+  <Registry>https://github.com/schartrand77/mkw2/pkgs/container/mkw2</Registry>
+  <Network>makerworks-net</Network>
+  <MyIP/>
+  <Shell>bash</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://github.com/schartrand77/mkw2/issues</Support>
+  <Project>https://github.com/schartrand77/mkw2</Project>
+  <Overview><![CDATA[MakerWorks is a 3D printing commerce platform with storefront, instant quoting, checkout, customer order tracking, admin operations, backups, and optional StockWorks and PrintLab integrations.]]></Overview>
+  <Category>Productivity: Tools:</Category>
+  <WebUI>http://[IP]:[PORT:3000]/</WebUI>
+  <TemplateURL>https://raw.githubusercontent.com/schartrand77/makerworks-unraid-templates/main/makerworks-v2.xml</TemplateURL>
+  <Icon>https://raw.githubusercontent.com/schartrand77/mkw2/main/public/icons/icon-192.png</Icon>
+  <ExtraParams>--restart unless-stopped --add-host=host.docker.internal:host-gateway</ExtraParams>
+  <PostArgs/>
+  <CPUset/>
+  <DateInstalled/>
+  <Requires>PostgreSQL database, strong JWT/admin secrets, mapped storage, and Docker network makerworks-net.</Requires>
+
+  <Config Name="Web UI Port" Target="3000" Default="3777" Mode="tcp" Description="Host port for the MakerWorks web UI." Type="Port" Display="always" Required="true" Mask="false">3777</Config>
+  <Config Name="Storage Path" Target="/app/storage" Default="/mnt/user/appdata/makerworks/storage" Mode="rw" Description="Persistent uploads, generated files, and default backup storage." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/makerworks/storage</Config>
+  <Config Name="Backup Path" Target="/app/backups" Default="/mnt/user/appdata/makerworks/backups" Mode="rw" Description="Optional dedicated backup directory." Type="Path" Display="always" Required="false" Mask="false">/mnt/user/appdata/makerworks/backups</Config>
+  <Config Name="Bulk Import Path" Target="/app/imports" Default="/mnt/user/appdata/makerworks/imports" Mode="rw" Description="Optional source directory for bulk model imports." Type="Path" Display="advanced" Required="false" Mask="false">/mnt/user/appdata/makerworks/imports</Config>
+  <Config Name="Database URL" Target="DATABASE_URL" Default="postgresql://postgres:change-this-password@makerworks-postgres:5432/makerworks?schema=public" Mode="" Description="PostgreSQL connection string for MakerWorks." Type="Variable" Display="always" Required="true" Mask="true">postgresql://postgres:change-this-password@makerworks-postgres:5432/makerworks?schema=public</Config>
+  <Config Name="JWT Secret" Target="JWT_SECRET" Default="" Mode="" Description="Long random secret used to sign application tokens." Type="Variable" Display="always" Required="true" Mask="true"></Config>
+  <Config Name="Base URL" Target="BASE_URL" Default="http://localhost:3777" Mode="" Description="External URL users use to reach MakerWorks." Type="Variable" Display="always" Required="true" Mask="false">http://localhost:3777</Config>
+  <Config Name="Storage Directory" Target="STORAGE_DIR" Default="/app/storage" Mode="" Description="Internal durable storage root." Type="Variable" Display="advanced" Required="true" Mask="false">/app/storage</Config>
+  <Config Name="Backup Directory" Target="BACKUP_DIR" Default="/app/backups" Mode="" Description="Internal backup destination. Leave /app/backups when the backup path is mapped." Type="Variable" Display="advanced" Required="false" Mask="false">/app/backups</Config>
+  <Config Name="Skip Docker for Backups" Target="SKIP_DOCKER" Default="1" Mode="" Description="Use local pg_dump/psql inside the container instead of Docker Compose exec." Type="Variable" Display="advanced" Required="true" Mask="false">1</Config>
+  <Config Name="pg_dump Path" Target="PG_DUMP_BIN" Default="/usr/bin/pg_dump" Mode="" Description="pg_dump path inside the MakerWorks image." Type="Variable" Display="advanced" Required="false" Mask="false">/usr/bin/pg_dump</Config>
+  <Config Name="psql Path" Target="PSQL_BIN" Default="/usr/bin/psql" Mode="" Description="psql path inside the MakerWorks image." Type="Variable" Display="advanced" Required="false" Mask="false">/usr/bin/psql</Config>
+  <Config Name="Admin Email" Target="ADMIN_EMAIL" Default="admin@example.com" Mode="" Description="Initial admin email." Type="Variable" Display="always" Required="true" Mask="false">admin@example.com</Config>
+  <Config Name="Admin Password" Target="ADMIN_PASSWORD" Default="" Mode="" Description="Initial admin password. Must be strong in production." Type="Variable" Display="always" Required="true" Mask="true"></Config>
+  <Config Name="Admin Name" Target="ADMIN_NAME" Default="Admin" Mode="" Description="Initial admin display name." Type="Variable" Display="advanced" Required="false" Mask="false">Admin</Config>
+  <Config Name="Cookie Secure" Target="COOKIE_SECURE" Default="false" Mode="" Description="Set true when MakerWorks is served only over HTTPS." Type="Variable" Display="advanced" Required="false" Mask="false">false</Config>
+  <Config Name="Redis URL" Target="REDIS_URL" Default="" Mode="" Description="Optional Redis URL for background queues. Leave blank to disable queue-backed processing." Type="Variable" Display="advanced" Required="false" Mask="false"></Config>
+  <Config Name="Currency" Target="CURRENCY" Default="USD" Mode="" Description="Server-side pricing currency, USD or CAD." Type="Variable" Display="advanced" Required="false" Mask="false">USD</Config>
+  <Config Name="Public Currency" Target="NEXT_PUBLIC_CURRENCY" Default="USD" Mode="" Description="Client-side display currency, USD or CAD." Type="Variable" Display="advanced" Required="false" Mask="false">USD</Config>
+  <Config Name="StockWorks Base URL" Target="STOCKWORKS_BASE_URL" Default="http://StockWorks:8000" Mode="" Description="Optional StockWorks integration URL on makerworks-net." Type="Variable" Display="advanced" Required="false" Mask="false">http://StockWorks:8000</Config>
+  <Config Name="StockWorks Username" Target="STOCKWORKS_USERNAME" Default="" Mode="" Description="Optional StockWorks username." Type="Variable" Display="advanced" Required="false" Mask="false"></Config>
+  <Config Name="StockWorks Password" Target="STOCKWORKS_PASSWORD" Default="" Mode="" Description="Optional StockWorks password." Type="Variable" Display="advanced" Required="false" Mask="true"></Config>
+  <Config Name="PrintLab Base URL" Target="PRINTLAB_BASE_URL" Default="http://PrintLab:8080" Mode="" Description="Optional PrintLab integration URL on makerworks-net." Type="Variable" Display="advanced" Required="false" Mask="false">http://PrintLab:8080</Config>
+  <Config Name="PrintLab API Key" Target="PRINTLAB_API_KEY" Default="" Mode="" Description="Optional API key sent to PrintLab." Type="Variable" Display="advanced" Required="false" Mask="true"></Config>
+  <Config Name="PrintLab API Key Header" Target="PRINTLAB_API_KEY_HEADER" Default="X-API-Key" Mode="" Description="Header used for PrintLab API key auth." Type="Variable" Display="advanced" Required="false" Mask="false">X-API-Key</Config>
+  <Config Name="PrintLab Webhook Secret" Target="PRINTLAB_WEBHOOK_SECRET" Default="" Mode="" Description="Shared secret for PrintLab callbacks into MakerWorks." Type="Variable" Display="advanced" Required="false" Mask="true"></Config>
+  <Config Name="Stripe Secret Key" Target="STRIPE_SECRET_KEY" Default="" Mode="" Description="Optional Stripe secret key." Type="Variable" Display="advanced" Required="false" Mask="true"></Config>
+  <Config Name="Stripe Publishable Key" Target="NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY" Default="" Mode="" Description="Optional Stripe publishable key." Type="Variable" Display="advanced" Required="false" Mask="false"></Config>
+  <Config Name="Stripe Webhook Secret" Target="STRIPE_WEBHOOK_SECRET" Default="" Mode="" Description="Optional Stripe webhook signing secret." Type="Variable" Display="advanced" Required="false" Mask="true"></Config>
+  <Config Name="Timezone" Target="TZ" Default="Etc/UTC" Mode="" Description="Container timezone." Type="Variable" Display="advanced" Required="false" Mask="false">Etc/UTC</Config>
+</Container>
