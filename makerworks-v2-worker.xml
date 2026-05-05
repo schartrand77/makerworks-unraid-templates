@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>MakerWorks-v2-Worker</Name>
+  <Repository>ghcr.io/schartrand77/mkw2:latest</Repository>
+  <Registry>https://github.com/schartrand77/mkw2/pkgs/container/mkw2</Registry>
+  <Network>makerworks-net</Network>
+  <MyIP/>
+  <Shell>bash</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://github.com/schartrand77/mkw2/issues</Support>
+  <Project>https://github.com/schartrand77/mkw2</Project>
+  <Overview><![CDATA[Companion background worker for MakerWorks v2. This container consumes BullMQ image and model-preview jobs queued by the MakerWorks web app. Install MakerWorks Redis before starting this worker.]]></Overview>
+  <Category>Productivity: Tools:</Category>
+  <WebUI/>
+  <TemplateURL>https://raw.githubusercontent.com/schartrand77/makerworks-unraid-templates/main/makerworks-v2-worker.xml</TemplateURL>
+  <Icon>https://raw.githubusercontent.com/schartrand77/mkw2/main/public/icons/icon-192.png</Icon>
+  <ExtraParams>--restart unless-stopped --add-host=host.docker.internal:host-gateway</ExtraParams>
+  <PostArgs>npm run worker:processing</PostArgs>
+  <CPUset/>
+  <DateInstalled/>
+  <Requires>MakerWorks-v2, makerworks-postgres, makerworks-redis, matching mapped storage, and Docker network makerworks-net.</Requires>
+
+  <Config Name="Storage Path" Target="/app/storage" Default="/mnt/user/appdata/makerworks/storage" Mode="rw" Description="Persistent MakerWorks storage. Must match the MakerWorks-v2 web container mapping." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/makerworks/storage</Config>
+  <Config Name="Database URL" Target="DATABASE_URL" Default="postgresql://postgres:change-this-password@makerworks-postgres:5432/makerworks?schema=public" Mode="" Description="PostgreSQL connection string. Must match MakerWorks-v2." Type="Variable" Display="always" Required="true" Mask="true">postgresql://postgres:change-this-password@makerworks-postgres:5432/makerworks?schema=public</Config>
+  <Config Name="Redis URL" Target="REDIS_URL" Default="redis://makerworks-redis:6379" Mode="" Description="Redis connection string used for BullMQ processing queues." Type="Variable" Display="always" Required="true" Mask="false">redis://makerworks-redis:6379</Config>
+  <Config Name="Storage Directory" Target="STORAGE_DIR" Default="/app/storage" Mode="" Description="Internal durable storage root." Type="Variable" Display="advanced" Required="true" Mask="false">/app/storage</Config>
+  <Config Name="Queue Attempts" Target="PROCESSING_QUEUE_ATTEMPTS" Default="5" Mode="" Description="Queue retry attempts before dead-lettering." Type="Variable" Display="advanced" Required="false" Mask="false">5</Config>
+  <Config Name="Queue Backoff Milliseconds" Target="PROCESSING_QUEUE_BACKOFF_MS" Default="5000" Mode="" Description="Exponential retry backoff delay in milliseconds." Type="Variable" Display="advanced" Required="false" Mask="false">5000</Config>
+  <Config Name="Image Worker Concurrency" Target="IMAGE_WORKER_CONCURRENCY" Default="2" Mode="" Description="Parallel image-processing jobs consumed by this worker." Type="Variable" Display="advanced" Required="false" Mask="false">2</Config>
+  <Config Name="Preview Worker Concurrency" Target="PREVIEW_WORKER_CONCURRENCY" Default="1" Mode="" Description="Parallel model-preview jobs consumed by this worker." Type="Variable" Display="advanced" Required="false" Mask="false">1</Config>
+  <Config Name="Timezone" Target="TZ" Default="Etc/UTC" Mode="" Description="Container timezone." Type="Variable" Display="advanced" Required="false" Mask="false">Etc/UTC</Config>
+</Container>

@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>makerworks-redis</Name>
+  <Repository>redis:7-alpine</Repository>
+  <Registry>https://hub.docker.com/_/redis</Registry>
+  <Network>makerworks-net</Network>
+  <MyIP/>
+  <Shell>sh</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://github.com/schartrand77/makerworks-unraid-templates/issues</Support>
+  <Project>https://github.com/schartrand77/makerworks-unraid-templates</Project>
+  <Overview><![CDATA[Redis 7 queue broker for MakerWorks background processing. MakerWorks-v2 and MakerWorks-v2-Worker use this container for BullMQ image and model-preview queues.]]></Overview>
+  <Category>Productivity: Tools:</Category>
+  <WebUI/>
+  <TemplateURL>https://raw.githubusercontent.com/schartrand77/makerworks-unraid-templates/main/makerworks-redis.xml</TemplateURL>
+  <Icon>https://raw.githubusercontent.com/devicons/devicon/master/icons/redis/redis-original.svg</Icon>
+  <ExtraParams>--restart unless-stopped</ExtraParams>
+  <PostArgs>redis-server --appendonly yes</PostArgs>
+  <CPUset/>
+  <DateInstalled/>
+  <Requires>Create Docker network makerworks-net before installing this template.</Requires>
+
+  <Config Name="Redis Port" Target="6379" Default="6379" Mode="tcp" Description="Optional host port for Redis. Keep closed to the internet." Type="Port" Display="advanced" Required="false" Mask="false">6379</Config>
+  <Config Name="Redis Data Path" Target="/data" Default="/mnt/user/appdata/makerworks/redis" Mode="rw" Description="Persistent Redis append-only file storage for queue state." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/makerworks/redis</Config>
+  <Config Name="Timezone" Target="TZ" Default="Etc/UTC" Mode="" Description="Container timezone." Type="Variable" Display="advanced" Required="false" Mask="false">Etc/UTC</Config>
+</Container>
